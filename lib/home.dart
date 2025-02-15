@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
 
   Container popular() {
     return Container(
-          height: 250,
+          height: 255,
           child: ListView.separated(
             separatorBuilder:(context,index)=>SizedBox(height: 1,) ,
             scrollDirection: Axis.vertical,
