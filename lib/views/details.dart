@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'class/pancake.dart';
+
 
 class detail1 extends StatefulWidget {
-  const detail1({super.key});
+  final dynamic p;
+  const detail1({Key? key, required this.p}) : super(key: key);
 
   @override
   State<detail1> createState() => _detail1State();
 }
-Pancake p=Pancake.getpan();
+
 
 class _detail1State extends State<detail1> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
 
   }
   @override
@@ -48,14 +50,14 @@ class _detail1State extends State<detail1> {
                       shrinkWrap: true,
                       itemBuilder: (context,index){
                     return Container(
-                      child: Text(p.ingrediant[index],style: TextStyle(
+                      child: Text(widget.p.ingrediant[index],style: TextStyle(
                         color: Colors.black,
                         fontSize: 20
                       ),),
                     );
                   },
                       separatorBuilder: (context,index)=>SizedBox(height: 10,),
-                      itemCount: p.ingrediant.length)
+                      itemCount: widget.p.ingrediant.length)
 
 
               )]),
@@ -132,48 +134,48 @@ class _detail1State extends State<detail1> {
       ) ,
     );
   }
-}
-AppBar buildAppBar(BuildContext context) {
-  return AppBar(
-    title: const Text(
-      'Honey Pancacke',
+  AppBar buildAppBar(BuildContext context) {
+    return AppBar(
+      title: Text(p.name,
       style: TextStyle(
-        color: Colors.blueAccent,
-        fontSize: 25,
-        fontWeight: FontWeight.bold,
+      color: Colors.blueAccent,
+      fontSize: 25,
+      fontWeight: FontWeight.bold,
       ),
     ),
     centerTitle: true,
     backgroundColor: Colors.white,
     leading: GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, '/bre');
-      },
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        alignment: Alignment.center,
-        child: SvgPicture.asset('assets/icons/fl.svg', height: 20, width: 20),
-        decoration: BoxDecoration(
-          color: const Color(0xffF7F8F8),
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
+    onTap: () {
+    Navigator.pushNamed(context, '/bre');
+    },
+    child: Container(
+    margin: const EdgeInsets.all(10),
+    alignment: Alignment.center,
+    child: SvgPicture.asset('assets/icons/fl.svg', height: 20, width: 20),
+    decoration: BoxDecoration(
+    color: const Color(0xffF7F8F8),
+    borderRadius: BorderRadius.circular(10),
+    ),
+    ),
     ),
     actions: [
-      GestureDetector(
-        onTap: () {},
-        child: Container(
-          margin: const EdgeInsets.all(10),
-          width: 37,
-          alignment: Alignment.center,
-          child: SvgPicture.asset('assets/icons/bt.svg', height: 20, width: 20),
-          decoration: BoxDecoration(
-            color: const Color(0xffF7F8F8),
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-      ),
+    GestureDetector(
+    onTap: () {},
+    child: Container(
+    margin: const EdgeInsets.all(10),
+    width: 37,
+    alignment: Alignment.center,
+    child: SvgPicture.asset('assets/icons/bt.svg', height: 20, width: 20),
+    decoration: BoxDecoration(
+    color: const Color(0xffF7F8F8),
+    borderRadius: BorderRadius.circular(10),
+    ),
+    ),
+    ),
     ],
-  );
+    );
+  }
+
 }
 

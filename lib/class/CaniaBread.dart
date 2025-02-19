@@ -1,12 +1,14 @@
 class Caniabread {
+  String name;
   List<String> ingrediant;
   List<String> how;
   List<String> general;
 
-  Caniabread({required this.ingrediant, required this.how, required this.general});
+  Caniabread({required this.name,required this.ingrediant, required this.how, required this.general});
 
   static Caniabread getcania() {
     return Caniabread(
+      name: 'Cania bread',
       ingrediant: [
         '4 cups bread flour',
         '1 egg',

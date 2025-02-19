@@ -4,8 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '/class/categort_model.dart';
 import '/class/recommendation.dart';
 import '/class/popular.dart';
-import 'detail1.dart';
-import 'detail2.dart';
+import 'details.dart';
+import '../class/pancake.dart';
+import '../class/CaniaBread.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -43,6 +44,9 @@ class _HomePageState extends State<HomePage> {
       pop = Popular.getPopular();
     });
   }
+
+  Pancake p = Pancake.getpan();
+  Caniabread f = Caniabread.getcania();
 
   @override
   Widget build(BuildContext context) {
@@ -199,9 +203,9 @@ class _HomePageState extends State<HomePage> {
                               child: Text('View'),
                           onTap: (){
                                 if(index==0){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>detail1()));}
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>detail1(Pancake:p)));}
                                 else{
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>detail2()));}
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>detail1(caniaBread:p)));}
                           },)
                         ),
                       )
