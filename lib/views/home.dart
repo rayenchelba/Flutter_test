@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '/class/categort_model.dart';
 import '/class/recommendation.dart';
@@ -9,7 +8,7 @@ import '../class/pancake.dart';
 import '../class/CaniaBread.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -133,11 +132,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                             SizedBox(height: 2,),
                             Container(
-                              child: Text(pop[index].deficulty+'|'+pop[index].time+'|'+pop[index].kal,style: TextStyle(color: Colors.black),),
+                              child: Text('${pop[index].deficulty}|${pop[index].time}|${pop[index].kal}',style: TextStyle(color: Colors.black),),
                             ),]
                         ),
                         SizedBox(width: 40,),
-                        Container(
+                        SizedBox(
                           width: 20,
                           child: Center(child: SvgPicture.asset('assets/icons/rt-fl.svg')),
                         )
@@ -186,7 +185,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       SizedBox(height: 2,),
                       Container(
-                        child: Text(rec[index].deficulty+'|'+rec[index].time+'|'+rec[index].kal,style: TextStyle(color: Color(0xff7B6F72),fontSize: 13),),
+                        child: Text('${rec[index].deficulty}|${rec[index].time}|${rec[index].kal}',style: TextStyle(color: Color(0xff7B6F72),fontSize: 13),),
                       ),
                       SizedBox(height: 10,),
 
@@ -203,9 +202,9 @@ class _HomePageState extends State<HomePage> {
                               child: Text('View'),
                           onTap: (){
                                 if(index==0){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>detail1(Pancake:p)));}
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>detail1(p:p)));}
                                 else{
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>detail1(caniaBread:p)));}
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>detail1(p:f)));}
                           },)
                         ),
                       )
@@ -236,7 +235,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.all(12),
             child: SvgPicture.asset('assets/icons/sr.svg', height: 25),
           ),
-          suffixIcon: Container(
+          suffixIcon: SizedBox(
             width: 80,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -327,11 +326,11 @@ class _HomePageState extends State<HomePage> {
         child: Container(
           margin: const EdgeInsets.all(10),
           alignment: Alignment.center,
-          child: SvgPicture.asset('assets/icons/fl.svg', height: 20, width: 20),
           decoration: BoxDecoration(
             color: const Color(0xffF7F8F8),
             borderRadius: BorderRadius.circular(10),
           ),
+          child: SvgPicture.asset('assets/icons/fl.svg', height: 20, width: 20),
         ),
       ),
       actions: [
@@ -341,11 +340,11 @@ class _HomePageState extends State<HomePage> {
             margin: const EdgeInsets.all(10),
             width: 37,
             alignment: Alignment.center,
-            child: SvgPicture.asset('assets/icons/bt.svg', height: 20, width: 20),
             decoration: BoxDecoration(
               color: const Color(0xffF7F8F8),
               borderRadius: BorderRadius.circular(10),
             ),
+            child: SvgPicture.asset('assets/icons/bt.svg', height: 20, width: 20),
           ),
         ),
       ],

@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 class detail1 extends StatefulWidget {
   final dynamic p;
-  const detail1({Key? key, required this.p}) : super(key: key);
+  const detail1({super.key, required this.p});
 
   @override
   State<detail1> createState() => _detail1State();
@@ -24,7 +24,7 @@ class _detail1State extends State<detail1> {
     PageController crtl=PageController();
     return Scaffold(
       appBar: buildAppBar(context),
-      body:Container(
+      body:SizedBox(
         height: 400,
         child: PageView(
           children: [
@@ -83,14 +83,14 @@ class _detail1State extends State<detail1> {
                             shrinkWrap: true,
                             itemBuilder: (context,index){
                               return Container(
-                                child: Text(p.how[index],style: TextStyle(
+                                child: Text(widget.p.how[index],style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 20
                                 ),),
                               );
                             },
                             separatorBuilder: (context,index)=>SizedBox(height: 10,),
-                            itemCount: p.how.length)
+                            itemCount: widget.p.how.length)
 
 
                     )]),
@@ -116,14 +116,14 @@ class _detail1State extends State<detail1> {
                             shrinkWrap: true,
                             itemBuilder: (context,index){
                               return Container(
-                                child: Text(p.general[index],style: TextStyle(
+                                child: Text(widget.p.general[index],style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 20
                                 ),),
                               );
                             },
                             separatorBuilder: (context,index)=>SizedBox(height: 10,),
-                            itemCount: p.general.length)
+                            itemCount: widget.p.general.length)
 
 
                     )]),
@@ -136,7 +136,7 @@ class _detail1State extends State<detail1> {
   }
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
-      title: Text(p.name,
+      title: Text(widget.p.name,
       style: TextStyle(
       color: Colors.blueAccent,
       fontSize: 25,
@@ -152,11 +152,11 @@ class _detail1State extends State<detail1> {
     child: Container(
     margin: const EdgeInsets.all(10),
     alignment: Alignment.center,
-    child: SvgPicture.asset('assets/icons/fl.svg', height: 20, width: 20),
     decoration: BoxDecoration(
     color: const Color(0xffF7F8F8),
     borderRadius: BorderRadius.circular(10),
     ),
+    child: SvgPicture.asset('assets/icons/fl.svg', height: 20, width: 20),
     ),
     ),
     actions: [
@@ -166,11 +166,11 @@ class _detail1State extends State<detail1> {
     margin: const EdgeInsets.all(10),
     width: 37,
     alignment: Alignment.center,
-    child: SvgPicture.asset('assets/icons/bt.svg', height: 20, width: 20),
     decoration: BoxDecoration(
     color: const Color(0xffF7F8F8),
     borderRadius: BorderRadius.circular(10),
     ),
+    child: SvgPicture.asset('assets/icons/bt.svg', height: 20, width: 20),
     ),
     ),
     ],

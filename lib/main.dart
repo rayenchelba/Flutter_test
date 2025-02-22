@@ -1,12 +1,16 @@
-import 'dart:convert';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:test3/views/users.dart';
+import 'class/todoliste.dart';
+import 'data/datacontrol.dart';
 import 'views/home.dart';
 import 'views/Lunch.dart';
-import 'package:http/http.dart' as http;
+import 'views/form.dart';
 
-void main() {
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
 
@@ -29,14 +33,16 @@ class _MyAppState extends State<MyApp> {
         '/bre': (context) => HomePage(),
         '/Home': (context) => HomeScreen(),
         '/Lunch':(context) =>Lunch(),
-        '/users':(context) =>users()
+        '/users':(context) =>users(),
+        '/form':(context) =>form(),
+        '/main':(context)=>MyApp()
       },
     );
   }
 }
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -72,6 +78,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ElevatedButton(onPressed:(){
                   Navigator.pushNamed(context, '/users');
                 },child: Text('fetchuser'),),
+                ElevatedButton(onPressed:()async{
+                  List<Welcome> to= await datacrtl().getData();
+                  Navigator.pushNamed(context, '/form',arguments: to);
+                },child: Text('formulaire'),),
 
 
               ],
