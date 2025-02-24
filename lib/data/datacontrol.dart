@@ -57,7 +57,7 @@ class datacrtl{
   }
   Future<bool> uploadfile(PlatformFile selected)async{
     if(selected==null){
-      print('no file selected');
+      print('no selected file');
       return false;
     }
     else{
@@ -67,9 +67,9 @@ class datacrtl{
       var request=http.MultipartRequest("post",uri);
       final bytes = await file.readAsBytes();
       var multipartFile = http.MultipartFile.fromBytes(
-        'file',    // field name in the form-data
-        bytes,     // the bytes from step 3
-        filename: file.path.split('/').last, // pick the last part of the file path as filename
+        'file',    
+        bytes,    
+        filename: file.path.split('/').last, 
       );
       request.files.add(multipartFile);
       request.fields['upload_preset'] = "first-upload";
@@ -78,7 +78,9 @@ class datacrtl{
       if (response.statusCode == 200) {
         var responseData = await response.stream.bytesToString();
         print(responseData);
+        print('success');
         return true;
+        // Handle success
       } else {
         return false;
       }
@@ -90,4 +92,5 @@ class datacrtl{
       return true;
     }
   }
+
 }

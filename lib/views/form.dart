@@ -24,6 +24,7 @@ List<todo> todos = [
   todo(title:'Workout', description:'1-hour gym session', priorities:Priorities.urgent),
 ];
 class _formState extends State<form> {
+  bool _isLoading = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -35,146 +36,159 @@ class _formState extends State<form> {
     final List<Welcome> to = ModalRoute.of(context)!.settings.arguments as List<Welcome>;
     return Scaffold(
       appBar: buildAppBar(context),
-      body: Column(children: [Container(
-        height: 300,
-      child: ListView.builder(
-      itemCount: to.length,
-          itemBuilder: (context,index){
-            return  Container(
-              margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-              color: to[index].completed ? Colors.green : Colors.red,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            to[index].userId.toString(),
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+      body: Stack(
+        children: [
+          Column(children: [Container(
+            height: 300,
+          child: ListView.builder(
+          itemCount: to.length,
+              itemBuilder: (context,index){
+                return  Container(
+                  margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                  color: to[index].completed ? Colors.green : Colors.red,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                to[index].userId.toString(),
+                                style: const TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                to[index].title,
+                                softWrap: true,
+                              ),
+                            ],
                           ),
-                          Text(
-                            to[index].title,
-                            softWrap: true,
-                          ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          to[index].completed ? 'completed' : 'incomplete',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 8),
-                    Text(
-                      to[index].completed ? 'completed' : 'incomplete',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-            );
+                  ),
+                );
 
-          }),
-    ),
-        Form(
-            key: _formkey,
-            child: Column(
-          children: [
-            TextFormField(
-              maxLength: 20,
-              decoration: InputDecoration(
-                label: Text('sprint title')
+              }),
               ),
-              validator: (value){
-                if(value==null||value.isEmpty){
-                  return('this field is required');
-                }
-                else{
-                  return(null);
-                }
-              },
-              onSaved: (value){
-                title=value!;
-              },
-            ),
-            TextFormField(
-              maxLength: 40,
-              decoration: InputDecoration(
-                  label: Text('sprint description')
-              ),
-              validator: (value){
-                if(value==null||value.isEmpty||value.length<=5){
-                  return('this field should more then 5 characters');
-                }
-                else{
-                  return(null);
-                }
-              },
-              onSaved: (value){
-                description=value!;
-              },
-            ),
-            DropdownButtonFormField(
-              decoration: InputDecoration(
-                label: Text('sprint priorities')
-              ),
-              value: prio,
-                items: Priorities.values.map((p){
-              return DropdownMenuItem(
-                  value: p,
-                  child: Text(p.title));}).toList(),
-            onChanged: (value){
-            },
-              onSaved: (value){
-              prio=value!;
-            },),
-            SizedBox(height: 20,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Form(
+                key: _formkey,
+                child: Column(
               children: [
-                    FilledButton(onPressed: () async{
-                      if(_formkey.currentState!.validate()){
-                    _formkey.currentState!.save();
-                    setState(() {
-                      todos.add(todo(title: title, description: description, priorities: prio));
-                    });
-                    _formkey.currentState!.reset();
-                    print('posting data ...');
-                    await datacrtl().postData(title: title, description: description, prio: prio.title).then((onValue){
-                      print(onValue);
-                    });
-                    datacrtl().getData();
-                    prio=Priorities.low;
-                    bool f=await datacrtl().uploadfile(de);
-                    if (f) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text('File upload successfully')));
-                        print('upload success');
-
+                TextFormField(
+                  maxLength: 20,
+                  decoration: InputDecoration(
+                    label: Text('sprint title')
+                  ),
+                  validator: (value){
+                    if(value==null||value.isEmpty){
+                      return('this field is required');
                     }
                     else{
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text('File upload successfully')));
-                        print('failed to upload');
+                      return(null);
                     }
-}
-                                  
-                                  },
-                      style: FilledButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-                    child: Text('submit'),),
-                GestureDetector(child: Icon(Icons.file_upload),
-                onTap: ()async{
-                  dynamic d= await datacrtl().select();
-                  setState(() {
-                  de=d;
-                });
-                },)
-                  ],
-            )
-          ],
-        )
-        )
+                  },
+                  onSaved: (value){
+                    title=value!;
+                  },
+                ),
+                TextFormField(
+                  maxLength: 40,
+                  decoration: InputDecoration(
+                      label: Text('sprint description')
+                  ),
+                  validator: (value){
+                    if(value==null||value.isEmpty||value.length<=5){
+                      return('this field should more then 5 characters');
+                    }
+                    else{
+                      return(null);
+                    }
+                  },
+                  onSaved: (value){
+                    description=value!;
+                  },
+                ),
+                DropdownButtonFormField(
+                  decoration: InputDecoration(
+                    label: Text('sprint priorities')
+                  ),
+                  value: prio,
+                    items: Priorities.values.map((p){
+                  return DropdownMenuItem(
+                      value: p,
+                      child: Text(p.title));}).toList(),
+                onChanged: (value){
+                },
+                  onSaved: (value){
+                  prio=value!;
+                },),
+                SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                        FilledButton(onPressed: () async{
+                          if(_formkey.currentState!.validate()){
+                        _formkey.currentState!.save();
+                        setState(() {
+                          todos.add(todo(title: title, description: description, priorities: prio));
+                          _isLoading = true;
+                        });
+                        print('posting data ...');
+                        await datacrtl().postData(title: title, description: description, prio: prio.title).then((onValue){
+                          print(onValue);
+                        });
+                        _formkey.currentState!.reset();
+                        datacrtl().getData();
+                        prio=Priorities.low;
+                        bool f=await datacrtl().uploadfile(de);
+                        setState(() {
+                          _isLoading = false;
+                        });
+                        if (f) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text('File upload successfully')));
+                              print('upload success');
 
-      ]),
+                        }
+                        else{
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text('File upload successfully')));
+                            print('failed to upload');
+                        }
+                          }
+
+                                      },
+                          style: FilledButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+                        child: Text('submit'),),
+                    GestureDetector(child: Icon(Icons.file_upload),
+                    onTap: ()async{
+                      dynamic d= await datacrtl().select();
+                      setState(() {
+                      de=d;
+                    });
+                    },)
+                      ],
+                )
+              ],
+            )
+            )
+
+          ]),
+          if (_isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: const Center(child: CircularProgressIndicator()),
+            ),
+        ],
+      ),
     );
   }
   AppBar buildAppBar(BuildContext context) {
@@ -215,6 +229,7 @@ class _formState extends State<form> {
             ),
             child: SvgPicture.asset('assets/icons/bt.svg', height: 20, width: 20),
           ),
+
         ),
       ],
     );
